@@ -15,7 +15,7 @@ resources:
 
 functions:
   - ${file(serverless/functions/getHistory.yml)}
-
+  - ${file(serverless/functions/submitHistory.yml)}
 custom:
   app: serverlessworkshop
   envVars: ${file(serverless/stagevars/${self:provider.stage}.yml)}

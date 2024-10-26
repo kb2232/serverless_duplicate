@@ -4,12 +4,11 @@ getHistory:
   handler: src/workers/getData.handler
   role: LambdaExecutionRole
   memorySize: 2000 # 10240MB
-  timeout: 60 # 900seconds
-  events:
+  timeout: 30 # 900seconds - api gateway timeouts at 30 secs
+  events: 
     - http:
         path: gethistory
         method: get
         cors: true
-
   environment:
     dataTableName: ${self:custom.envVars.dataTableName}

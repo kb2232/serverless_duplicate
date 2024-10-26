@@ -1,0 +1,14 @@
+submitHistory:
+  name: ${self:service}-submithistory-${self:custom.envVars.envName}
+  description: This lambda submits data to database
+  handler: src/workers/submitHistory.handler
+  role: LambdaExecutionRole
+  memorySize: 2000 # 10240MB
+  timeout: 30 # 900seconds - api gateway timeouts at 30 secs
+  events:
+    - http:
+        path: submit/history
+        method: post
+        cors: true
+  environment:
+    dataTableName: ${self:custom.envVars.dataTableName}
