@@ -1,0 +1,52 @@
+name: Deploy Serverless
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Install Serverless Framework
+        run: npm install -g serverless
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Deploy to AWS
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+          SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
+        run: serverless deploy --verbose
+
+      # Step to Get API ID and Deploy API Gateway to a Stage
+      - name: Deploy API Gateway to Stage
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+          DEPLOYMENT_STAGE: ${{ secrets.DEPLOYMENT_STAGE }}
+          API_NAME: ${{ secrets.API_NAME }}
+        run: |
+          echo "Fetching API ID for API: $API_NAME"
+          API_ID=$(aws apigateway get-rest-apis --query "items[?name=='$API_NAME'].id" --output text)
+          
+          if [ -z "$API_ID" ]; then
+            echo "Error: API ID for '$API_NAME' not found."
+            exit 1
+          fi
+
+          echo "Deploying API Gateway with ID: $API_ID to stage: $DEPLOYMENT_STAGE"
+          aws apigateway create-deployment --rest-api-id $API_ID --stage-name $DEPLOYMENT_STAGE
