@@ -3,7 +3,7 @@ Resources:
   LambdaExecutionRole:
     Type: 'AWS::IAM::Role'
     Properties:
-      RoleName: ${self:service}-datarole-${self:custom.stageVars.envName}
+      RoleName: ${self:service}-datarole-${self:custom.envVars.envName}
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -27,7 +27,7 @@ Resources:
                   - dynamodb:PutItem
                   - dynamodb:UpdateItem
                 Resource:
-                  - arn:aws:dynamodb:${self:provider.region}:${self:custom.stageVars.awsAccountId}:table/${self:custom.stageVars.dataTableName}
+                  - arn:aws:dynamodb:${self:provider.region}:${self:custom.envVars.awsAccountId}:table/${self:custom.envVars.dataTableName}
         - PolicyName: 'cloudwatch-policy'
           PolicyDocument:
             Version: '2012-10-17'

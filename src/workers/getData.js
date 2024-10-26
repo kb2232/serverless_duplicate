@@ -14,7 +14,7 @@ const getData = async (event) => {
     };
     const data = await scanTable(params);
     mylogger.debug(`data returned: ${data}`);
-    return sendResponse(200, { message: data });
+    return sendResponse(200, { message: data?.Count ?? -1 });
   } catch (error) {
     mylogger.debug(`error getting data: ${error}`);
     return sendResponse(422);
