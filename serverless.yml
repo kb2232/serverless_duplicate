@@ -1,0 +1,10 @@
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: serverlessdemo
+
+frameworkVersion: '4'
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  region: us-east-1
+  stage: ${opt:stage, 'development'}

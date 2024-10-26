@@ -1,0 +1,25 @@
+{
+  "name": "serverlessdemo",
+  "version": "1.0.0",
+  "description": "this is a demo",
+  "main": "serverless.yml",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kb2232/serverless_duplicate.git"
+  },
+  "keywords": [
+    "kunle"
+  ],
+  "author": "kunle",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kb2232/serverless_duplicate/issues"
+  },
+  "homepage": "https://github.com/kb2232/serverless_duplicate#readme",
+  "dependencies": {
+    "winston": "^3.8.2"
+  }
+}

@@ -1,0 +1,15 @@
+#general
+envName: develpoment
+region: us-east-1
+
+# winston props
+loglevel: debug
+timestampFormat: 'YYYY-MM-DD HH:mm:ss'
+
+##DO NOT CHANGE NAME HERE
+awsAccountId: 381492092168
+## dynamo
+dataTableName: demotable
+
+
+##################################################
