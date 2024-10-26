@@ -8,3 +8,17 @@ provider:
   runtime: nodejs16.x
   region: us-east-1
   stage: ${opt:stage, 'development'}
+
+resources:
+  - ${file(serverless/cloudformation/lambdaRole.yml)}
+  - ${file(serverless/cloudformation/gatewayresponse.yml)}
+
+functions:
+  - ${file(serverless/functions/getHistory.yml)}
+
+custom:
+  app: serverlessworkshop
+  envVars: ${file(serverless/stagevars/${self:provider.stage}.yml)}
+
+package:
+  individually: true

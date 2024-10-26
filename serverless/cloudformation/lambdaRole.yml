@@ -1,0 +1,43 @@
+Description: CFN stack for "${self:service}"
+Resources:
+  LambdaExecutionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: ${self:service}-datarole-${self:custom.stageVars.envName}
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: 'dynamodb-policy'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:BatchGetItem
+                  - dynamodb:GetItem
+                  - dynamodb:Query
+                  - dynamodb:Scan
+                  - dynamodb:BatchWriteItem
+                  - dynamodb:PutItem
+                  - dynamodb:UpdateItem
+                Resource:
+                  - arn:aws:dynamodb:${self:provider.region}:${self:custom.stageVars.awsAccountId}:table/${self:custom.stageVars.dataTableName}
+        - PolicyName: 'cloudwatch-policy'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                  - ec2:CreateNetworkInterface
+                  - ec2:DescribeNetworkInterfaces
+                  - ec2:DeleteNetworkInterface
+                Resource: '*'

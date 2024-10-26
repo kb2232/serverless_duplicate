@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/kb2232/serverless_duplicate#readme",
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.679.0",
+    "@aws-sdk/lib-dynamodb": "^3.679.0",
     "winston": "^3.8.2"
   }
 }
